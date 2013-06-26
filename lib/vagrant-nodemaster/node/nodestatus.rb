@@ -1,40 +1,40 @@
-require 'vagrant-nodemaster/client/clientdbmanager'
+require 'vagrant-nodemaster/node/nodedbmanager'
 require 'socket'
 require 'timeout'
 
 module Vagrant
   module NodeMaster
   
-		class ClientStatus < Vagrant.plugin(2, :command)
+		class NodeStatus < Vagrant.plugin(2, :command)
 
 			def execute
 					
 					options = {}
 					
 					opts = OptionParser.new do |opts|
-						opts.banner = "Usage: vagrant client status"
+						opts.banner = "Usage: vagrant node status"
 					end
 					
 					argv = parse_options(opts)
 					return if !argv
 		  		raise Vagrant::Errors::CLIInvalidUsage, :help => opts.help.chomp if argv.length != 0
 		  		
-		  		dbmanager=DB::ClientDBManager.new
+		  		dbmanager=DB::NodeDBManager.new
 
 					status = {}
 							  		
 
 
-					dbmanager.get_clients.each do |name,address,port|
-							status[name]=ERROR
-							if port_open?(address,port)
-								status[name]=OK
+					dbmanager.get_nodes.each do |entry|							
+							status[entry[:name]]=ERROR
+							if port_open?(entry[:address],entry[:port])
+								status[entry[:name]]=OK
 							end
 					end
 					
 					
 					#@env.ui.info("Client Status:", :prefix => false)
-					@env.ui.info("#{"CLIENT".ljust(25)} STATUS ",:prefix => false)
+					@env.ui.info("#{"NODE".ljust(25)} STATUS ",:prefix => false)
 					status.each do |name,status|
 							@env.ui.info("#{name.ljust(25)} #{status}",:prefix => false)
 					end

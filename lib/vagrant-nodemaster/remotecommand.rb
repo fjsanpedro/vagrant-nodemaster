@@ -7,15 +7,15 @@ module Vagrant
  
 	class Command < Vagrant.plugin(2, :command)
 		def initialize(argv, env)
-          super
+			super
 
-          @main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
+			@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
 
-			puts "MAIN ARGS #{@main_args}"
-			puts "SUB COMMAND #{@sub_command}"
-			puts "SUB ARGS #{@sub_args}"
+#			puts "MAIN ARGS #{@main_args}"
+#			puts "SUB COMMAND #{@sub_command}"
+#			puts "SUB ARGS #{@sub_args}"
 
-          @subcommands = Vagrant::Registry.new
+				@subcommands = Vagrant::Registry.new
 #          @subcommands.register(:add) do
 #            require File.expand_path("../add", __FILE__)
 #            Add
@@ -25,57 +25,63 @@ module Vagrant
 #            require File.expand_path("../remoteboxlist", __FILE__)
 #            BoxList
 #          end
-          
-          @subcommands.register(:box) do
-            require File.expand_path("../remote/remoteboxcommand", __FILE__)            
-            BoxCommand
-          end
-          
-          @subcommands.register(:up) do
-            require File.expand_path("../remote/remoteup", __FILE__)
-            UpVM
-          end
-          
-          @subcommands.register(:halt) do
-            require File.expand_path("../remote/remotehalt", __FILE__)
-            HaltVM
-          end
-          
-          @subcommands.register(:suspend) do
-            require File.expand_path("../remote/remotesuspend", __FILE__)
-            SuspendVM
-          end
-          
-          @subcommands.register(:resume) do
-            require File.expand_path("../remote/remoteresume", __FILE__)
-            ResumeVM
-          end
-          
-          @subcommands.register(:status) do
-            require File.expand_path("../remote/remotevmstatus", __FILE__)
-            StatusVM
-          end
-          
-          @subcommands.register(:destroy) do
-            require File.expand_path("../remote/remotedestroy", __FILE__)
-            DestroyVM
-          end
-          
-          @subcommands.register(:provision) do
-            require File.expand_path("../remote/remoteprovision", __FILE__)
-            ProvisionVM
-          end
+				
+				@subcommands.register(:box) do
+					require File.expand_path("../remote/remoteboxcommand", __FILE__)            
+					BoxCommand
+				end
+				
+				@subcommands.register(:up) do
+					require File.expand_path("../remote/remoteup", __FILE__)
+					UpVM
+				end
+				
+				@subcommands.register(:halt) do
+					require File.expand_path("../remote/remotehalt", __FILE__)
+					HaltVM
+				end
+				
+				@subcommands.register(:suspend) do
+					require File.expand_path("../remote/remotesuspend", __FILE__)
+					SuspendVM
+				end
+				
+				@subcommands.register(:resume) do
+					require File.expand_path("../remote/remoteresume", __FILE__)
+					ResumeVM
+				end
+				
+				@subcommands.register(:status) do
+					require File.expand_path("../remote/remotevmstatus", __FILE__)
+					StatusVM
+				end
+				
+				@subcommands.register(:destroy) do
+					require File.expand_path("../remote/remotedestroy", __FILE__)
+					DestroyVM
+				end
+				
+				@subcommands.register(:provision) do
+					require File.expand_path("../remote/remoteprovision", __FILE__)
+					ProvisionVM
+				end
 
-					@subcommands.register(:ssh) do
-            require File.expand_path("../remote/remotessh", __FILE__)
-            SSHVM
-          end
+				@subcommands.register(:ssh) do
+					require File.expand_path("../remote/remotessh", __FILE__)
+					SSHVM
+				end
 
-					@subcommands.register(:snapshot) do
-            require File.expand_path("../remote/remotesnapshotcommand", __FILE__)
-            SnapshotCommand
-          end
-        end
+				@subcommands.register(:snapshot) do
+					require File.expand_path("../remote/remotesnapshotcommand", __FILE__)
+					SnapshotCommand
+				end
+				
+				@subcommands.register(:backup) do
+					require File.expand_path("../remote/remotebackupcommand", __FILE__)            
+					BackupCommand
+				end
+				
+			end
 
 		def execute
 			if @main_args.include?("-h") || @main_args.include?("--help")

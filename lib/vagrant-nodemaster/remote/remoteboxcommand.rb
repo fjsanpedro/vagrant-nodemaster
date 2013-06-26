@@ -11,9 +11,9 @@ module Vagrant
 
           @main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
 
-			puts "MAIN ARGS #{@main_args}"
-			puts "SUB COMMAND #{@sub_command}"
-			puts "SUB ARGS #{@sub_args}"
+#			puts "MAIN ARGS #{@main_args}"
+#			puts "SUB COMMAND #{@sub_command}"
+#			puts "SUB ARGS #{@sub_args}"
 
           @subcommands = Vagrant::Registry.new
 #          @subcommands.register(:add) do

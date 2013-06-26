@@ -1,26 +1,45 @@
 require 'optparse'
 require 'vagrant-nodemaster/requestcontroller'
+
+
 module Vagrant
   module NodeMaster
   	
-		class SnapshotTake < Vagrant.plugin(2, :command)
+		class BackupTake < Vagrant.plugin(2, :command)
 			def execute
 				options = {}
 	
+				options[:background]=false
+				options[:download] = nil
+				
 				opts = OptionParser.new do |opts|
-					opts.banner = "Usage: vagrant remote backup take <directory> [node-name] [vmname] --background"
+					opts.banner = "Usage: vagrant remote backup take [node-name] [vmname] [--download target_directory][--background] [-h]"
+					opts.separator ""
+          opts.on("-b", "--background", "Take backup in background") do |b|
+                  options[:background] = b
+          end
+          opts.on("--download target_directory", String,"Download backup to target directory") do |d|          				          				
+                  options[:download] = d
+          end
+
 				end
+				
 				
 				
 				argv = parse_options(opts)          
 									
 				return if !argv
-				raise Vagrant::Errors::CLIInvalidUsage, :help => opts.help.chomp if argv.length < 1 || argv.length > 3 
-					
-#				snapshot = RequestController.vm_snapshot_take(argv[0],argv[1],argv[2],argv[3])			
-#				
-#				@env.ui.info("Remote Client: #{argv[0]}", :prefix => false)
-#				@env.ui.info("Snapshot \"#{snapshot[:name]}\" with UUID #{snapshot[:id]} succesfully created.")
+				raise Vagrant::Errors::CLIInvalidUsage, :help => opts.help.chomp if argv.length > 2 		
+
+				
+				
+				
+				ui=nil
+				ui = @env.ui if options[:background]==false
+				
+				p = fork { RequestController.node_backup_take(ui,options[:download],argv[0],argv[1]) } 
+				
+				Process.waitpid(p) if options[:background]==false
 						
 				0
 			end

@@ -7,7 +7,7 @@ module Vagrant
 	     options = {}
 
           opts = OptionParser.new do |opts|
-            opts.banner = "Usage: vagrant remote up <client-name> [vm_name]"
+            opts.banner = "Usage: vagrant remote up <node-name> [vm_name]"
           end
           
           argv = parse_options(opts)
@@ -21,7 +21,7 @@ module Vagrant
           			  	
           		
 					machines.each do |machine|
-						@env.ui.info("Remote Client \"#{argv[0]}\":Virtual Machine \"#{machine}\" launched")
+						@env.ui.info("Remote Client \"#{argv[0]}\": Virtual Machine \"#{machine}\" launched")
 					end          				
 										
 					@env.ui.info(" ")

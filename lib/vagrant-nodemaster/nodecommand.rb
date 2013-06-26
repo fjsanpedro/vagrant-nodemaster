@@ -11,35 +11,35 @@ module Vagrant
 				
 				@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
 				
-				puts "MAIN ARGS #{@main_args}"
-				puts "SUB COMMAND #{@sub_command}"
-				puts "SUB ARGS #{@sub_args}"
+#				puts "MAIN ARGS #{@main_args}"
+#				puts "SUB COMMAND #{@sub_command}"
+#				puts "SUB ARGS #{@sub_args}"
 				
 				@subcommands = Vagrant::Registry.new
 				
 				@subcommands.register(:list) do
-					require File.expand_path("../client/clientlist", __FILE__)
-					ClientList
+					require File.expand_path("../node/nodelist", __FILE__)
+					NodeList
 				end       
 				
 				@subcommands.register(:add) do
-					require File.expand_path("../client/clientadd", __FILE__)
-					ClientAdd
+					require File.expand_path("../node/nodeadd", __FILE__)
+					NodeAdd
 				end
 				
 				@subcommands.register(:remove) do
-					require File.expand_path("../client/clientremove", __FILE__)
-					ClientRemove
+					require File.expand_path("../node/noderemove", __FILE__)
+					NodeRemove
 				end
 			
 				@subcommands.register(:update) do
-					require File.expand_path("../client/clientupdate", __FILE__)
-					ClientUpdate
+					require File.expand_path("../node/nodeupdate", __FILE__)
+					NodeUpdate
 				end
 
 				@subcommands.register(:status) do
-					require File.expand_path("../client/clientstatus", __FILE__)
-					ClientStatus
+					require File.expand_path("../node/nodestatus", __FILE__)
+					NodeStatus
 				end
 				
 			end
@@ -75,7 +75,7 @@ module Vagrant
 			
 			def help
 				opts = OptionParser.new do |opts|
-					opts.banner = "Usage: vagrant client <command> [<args>]"
+					opts.banner = "Usage: vagrant node <command> [<args>]"
 					opts.separator ""
 					opts.separator "Available subcommands:"
 			
@@ -89,7 +89,7 @@ module Vagrant
 					end
 			
 					opts.separator ""
-					opts.separator "For help on any individual command run `vagrant client COMMAND -h`"
+					opts.separator "For help on any individual command run `vagrant node COMMAND -h`"
 				end
 			
 				@env.ui.info(opts.help, :prefix => false)

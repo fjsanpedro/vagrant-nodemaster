@@ -8,8 +8,13 @@ Gem::Specification.new do |spec|
   spec.version       = Vagrant::NodeMaster::VERSION
   spec.authors       = ["Francisco Javier Lopez de San Pedro"]
   spec.email         = ["fjsanpedro@gmail.com"]
-  spec.description   = "This Vagrant plugin allows you to control centralizely remote virtual environments configured with vagrant-node"
-  spec.summary       = "Escribir summary"
+  spec.description   = "This Vagrant plugin allows you to control centralizely remote virtual environments configured with vagrant-node."
+
+  spec.summary       = "This plugin allows you to control centralizely remote virtual environments configured with the plugin Vagrant-Node(https://github.com/fjsanpedro/vagrant-nodemaster/tree/master/lib/vagrant-node).
+
+
+This plugin has been developed in the context of the Catedra SAES of the University of Murcia(Spain)."
+
   spec.homepage      = "http://www.catedrasaes.org"
   spec.license       = "GNU"
 

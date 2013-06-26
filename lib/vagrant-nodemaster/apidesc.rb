@@ -5,111 +5,121 @@ module RestRoutes
 	class RouteManager
 	
 		def self.box_list_route
-				return BOX_LIST_ROUTE
+			BOX_LIST_ROUTE
 		end
 		
 		def self.box_delete_route
-				return BOX_DELETE_ROUTE
+			BOX_DELETE_ROUTE
 		end
 		
 		def self.box_add_route
-				return BOX_ADD	_ROUTE
+			BOX_ADD_ROUTE
 		end
 		
 		def self.vm_up_route
-			return VM_UP_ROUTE
+			VM_UP_ROUTE
 		end
 		
 		def self.vm_suspend_route 
-			return VM_SUSPEND_ROUTE
+			VM_SUSPEND_ROUTE
 		end
 		
 		def self.vm_resume_route
-			return VM_RESUME_ROUTE
+			VM_RESUME_ROUTE
 		end
 		
 		def self.vm_halt_route
-			return VM_HALT_ROUTE
+			VM_HALT_ROUTE
 		end
 		
 		def self.vm_destroy_route
-			return VM_DESTROY_ROUTE
+			VM_DESTROY_ROUTE
 		end
 		
 		def self.vm_status_route
-			return VM_STATUS_ROUTE
+			VM_STATUS_ROUTE
 		end
 		
 		def self.vm_provision_route
-			return VM_PROVISION_ROUTE
+			VM_PROVISION_ROUTE
 		end
 		
 		def self.vm_status_all_route
-			return VM_STATUS_ALL_ROUTE
+			VM_STATUS_ALL_ROUTE
 		end
 		
 		def self.vm_sshconfig_route
-			return SSH_CONFIG_ROUTE
+			SSH_CONFIG_ROUTE
 		end
 		
 		def self.snapshots_all_route
-			return SNAPSHOTS_ALL_ROUTE
+			SNAPSHOTS_ALL_ROUTE
 		end
 		
 		def self.vm_snapshots_route
-			return VM_SNAPSHOTS_ROUTE
+			VM_SNAPSHOTS_ROUTE
 		end
 		
 		def self.vm_snapshot_take_route
-			return VM_SNAPSHOT_TAKE_ROUTE
+			VM_SNAPSHOT_TAKE_ROUTE
 		end
 		
 		def self.vm_snapshot_restore_route
-			return VM_SNAPSHOT_RESTORE_ROUTE
+			VM_SNAPSHOT_RESTORE_ROUTE
 		end
 		
+		def self.node_backup_log_route
+			NODE_BACKUP_LOG_ROUTE
+		end
+		
+		def self.vm_backup_log_route
+			VM_BACKUP_LOG_ROUTE
+		end
+		
+		
 		def self.box_list_url(host,port)
-			return "http://#{host}:#{port}#{box_list_route}"
+			"http://#{host}:#{port}#{box_list_route}"
 		end
 		
 		def self.box_add_url(host,port)			
-			return "http://#{host}:#{port}#{box_add_route}"
+			"http://#{host}:#{port}#{box_add_route}"
 		end
 		
 		def self.box_delete_url(host,port,box,provider)
 			
-			url=box_delete_route
+			url=String.new(box_delete_route)
 			url[":box"]=box
 			url[":provider"]=provider
 			url="http://#{host}:#{port}#{url}"
-			return url
+			
+			url
 			
 		end
 
 		
 		
 		def self.vm_up_url(host,port)
-			return "http://#{host}:#{port}#{vm_up_route}"
+			"http://#{host}:#{port}#{vm_up_route}"
 		end
 		
 		def self.vm_halt_url(host,port)
-			return "http://#{host}:#{port}#{vm_halt_route}"
+			"http://#{host}:#{port}#{vm_halt_route}"
 		end
 	
 		def self.vm_destroy_url(host,port)
-			return "http://#{host}:#{port}#{vm_destroy_route}"
+			"http://#{host}:#{port}#{vm_destroy_route}"
 		end			
 		
 		def self.vm_suspend_url(host,port)
-			return "http://#{host}:#{port}#{vm_suspend_route}"
+			"http://#{host}:#{port}#{vm_suspend_route}"
 		end
 		
 		def self.vm_resume_url(host,port)
-			return "http://#{host}:#{port}#{vm_resume_route}"
+			"http://#{host}:#{port}#{vm_resume_route}"
 		end
 		
 		def self.vm_provision_url(host,port)
-			return "http://#{host}:#{port}#{vm_provision_route}"
+			"http://#{host}:#{port}#{vm_provision_route}"
 		end
 		
 			
@@ -119,44 +129,68 @@ module RestRoutes
 			url="http://#{host}:#{port}#{vm_status_all_route}"
 		
 			if (vmname!=nil)
-				url=vm_status_route
+				url=String.new(vm_status_route)
 				url[":vm"]=vmname
 				url="http://#{host}:#{port}#{url}"		
 			end
-			return url
+			
+			url
+			
 		end
 		
 		def self.vm_sshconfig_url(host,port,vmname)
-			url=vm_sshconfig_route
+			url=String.new(vm_sshconfig_route)
 			url[":vm"]=vmname
-			return "http://#{host}:#{port}#{vm_sshconfig_route}"					
+			
+			"http://#{host}:#{port}#{url}"
+								
 		end
 		
 		def self.snapshot_list_url(host,port,vmname=nil)	
 			url="http://#{host}:#{port}#{snapshots_all_route}"
 		
 			if (vmname!=nil)
-				url=vm_snapshots_route
+				url=String.new(vm_snapshots_route)
 				url[":vm"]=vmname
 				url="http://#{host}:#{port}#{url}"		
 			end
 			
-			return url
+			url
+			
 		end
 		
-		def self.vm_snapshot_take_url(host,port,vmname)
-				url=vm_snapshot_take_route
-				url[":vm"]=vmname
-				url="http://#{host}:#{port}#{url}"		
-			return url
+		def self.vm_snapshot_take_url(host,port,vmname)				
+			url=String.new(vm_snapshot_take_route)				
+			url[":vm"]=vmname
+			url="http://#{host}:#{port}#{url}"						
+			
+			url
+			
 		end
 		
 		def self.vm_snapshot_restore_url(host,port,vmname)
-			url=vm_snapshot_restore_route
+			url=String.new(vm_snapshot_restore_route)
 			url[":vm"]=vmname
 			url="http://#{host}:#{port}#{url}"		
-			return url
+			
+			url
+			
 		end
+		
+		def self.backup_log_url(host,port,vmname=nil)
+			url="http://#{host}:#{port}#{node_backup_log_route}"
+		
+			if (vmname!=nil)
+				url=String.new(vm_backup_log_route)
+				url[":vm"]=vmname
+				url="http://#{host}:#{port}#{url}"		
+			end
+			
+			url
+			
+		end
+		
+		
 		
 		private
 			BOX_LIST_ROUTE =	"/api/box/list"
@@ -170,13 +204,17 @@ module RestRoutes
 			VM_RESUME_ROUTE = "/api/vm/resume"
 			VM_PROVISION_ROUTE = "/api/vm/provision"
 			VM_STATUS_ALL_ROUTE = "/api/vm/status"
-			VM_STATUS_ROUTE = "/api/vm/:vm/status"
+			VM_STATUS_ROUTE = "/api/vm/:vm/status"			
 			SSH_CONFIG_ROUTE = "/api/vm/:vm/sshconfig"
 			
 			SNAPSHOTS_ALL_ROUTE = "/api/vm/snapshots"
 			VM_SNAPSHOTS_ROUTE = "/api/vm/:vm/snapshots"
 			VM_SNAPSHOT_TAKE_ROUTE = "/api/vm/:vm/take"
 			VM_SNAPSHOT_RESTORE_ROUTE = "/api/vm/:vm/restore"
+			
+			VM_BACKUP_LOG_ROUTE = "/api/vm/:vm/backuplog"
+			NODE_BACKUP_LOG_ROUTE = "/api/backuplog"
+			
 	end
 	
 end

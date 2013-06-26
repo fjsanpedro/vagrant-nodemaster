@@ -11,16 +11,13 @@ module Vagrant
 
           @main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
 
-			puts "MAIN ARGS #{@main_args}"
-			puts "SUB COMMAND #{@sub_command}"
-			puts "SUB ARGS #{@sub_args}"
+#			puts "MAIN ARGS #{@main_args}"
+#			puts "SUB COMMAND #{@sub_command}"
+#			puts "SUB ARGS #{@sub_args}"
 
           @subcommands = Vagrant::Registry.new
-#          @subcommands.register(:add) do
-#            require File.expand_path("../add", __FILE__)
-#            Add
-#          end
-#
+
+
           @subcommands.register(:list) do
             require File.expand_path("../remotesnapshotlist", __FILE__)
             SnapshotList
@@ -35,16 +32,6 @@ module Vagrant
             require File.expand_path("../remotesnapshotrestore", __FILE__)
             SnapshotRestore
           end
-          
-#          @subcommands.register(:add) do
-#            require File.expand_path("../remoteboxadd", __FILE__)
-#            BoxAdd
-#          end
-#          
-#          @subcommands.register(:remove) do
-#            require File.expand_path("../remoteboxremove", __FILE__)
-#            BoxRemove
-#          end
           
         
         end

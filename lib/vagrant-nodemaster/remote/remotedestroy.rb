@@ -9,7 +9,7 @@ module Vagrant
 				
 				opts = OptionParser.new do |opts|
 				
-					opts.banner = "Usage: vagrant remote destroy <client-name> [vm_name] [--force] [-h]"
+					opts.banner = "Usage: vagrant remote destroy <node-name> [vm_name] [--force] [-h]"
 					opts.separator ""
 					opts.on("-f", "--force", "Destroy without confirmation") do |f|
 						options[:force] = f

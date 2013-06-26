@@ -7,7 +7,7 @@ module Vagrant
 				options = {}
 	
 				opts = OptionParser.new do |opts|
-					opts.banner = "Usage: vagrant remote box remove <client-name> <box-name> <box-provider>"
+					opts.banner = "Usage: vagrant remote box remove <node-name> <box-name> <box-provider>"
 				end
 				
 				

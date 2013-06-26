@@ -8,7 +8,7 @@ module Vagrant
 				options = {}
 				
 				opts = OptionParser.new do |opts|
-					opts.banner = "Usage: vagrant remote suspend <client-name> [vm_name]"
+					opts.banner = "Usage: vagrant remote suspend <node-name> [vm_name]"
 				end
 				
 				argv = parse_options(opts)

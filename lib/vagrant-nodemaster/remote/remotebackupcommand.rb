@@ -11,9 +11,9 @@ module Vagrant
 
 			@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
 
-			puts "MAIN ARGS #{@main_args}"
-			puts "SUB COMMAND #{@sub_command}"
-			puts "SUB ARGS #{@sub_args}"
+#			puts "MAIN ARGS #{@main_args}"
+#			puts "SUB COMMAND #{@sub_command}"
+#			puts "SUB ARGS #{@sub_args}"
 
 			@subcommands = Vagrant::Registry.new
 
@@ -22,15 +22,12 @@ module Vagrant
 				BackupTake
 			end
 			
-#			@subcommands.register(:log) do
-#				require File.expand_path("../remotebackuplog", __FILE__)
-#				BackupLog
-#			end
-#							
-#			@subcommands.register(:status) do
-#				require File.expand_path("../remotebackupstatus", __FILE__)
-#				BackupTake
-#			end
+			@subcommands.register(:log) do
+				require File.expand_path("../remotebackuplog", __FILE__)
+				BackupLog
+			end
+							
+
 		end
 
 		def execute

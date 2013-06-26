@@ -15,8 +15,8 @@ module Vagrant
     		Command
 			end
 
-    	command ('client') do
-    		require_relative "vagrant-nodemaster/clientcommand"
+    	command ('node') do
+    		require_relative "vagrant-nodemaster/nodecommand"
     		Command
 			end
 		

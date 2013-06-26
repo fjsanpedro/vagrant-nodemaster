@@ -1,9 +1,9 @@
-require 'vagrant-nodemaster/client/clientdbmanager'
+require 'vagrant-nodemaster/node/nodedbmanager'
 
 module Vagrant
   module NodeMaster
   
-		class ClientRemove < Vagrant.plugin(2, :command)
+		class NodeRemove < Vagrant.plugin(2, :command)
 #			def initialize(sub_args, env,db)
 #					super(sub_args,env)					
 #					@db=db
@@ -13,8 +13,8 @@ module Vagrant
 					options = {}
 					
 					opts = OptionParser.new do |opts|
-						opts.banner = "Usage: vagrant client remove [client-name] --clean"
-						opts.on("-c","--clean", "Remove all clients from list") do |c|
+						opts.banner = "Usage: vagrant node remove [node-name] --clean"
+						opts.on("-c","--clean", "Remove all nodes from list") do |c|
 							options[:clean] = c
 						end
 					end
@@ -24,12 +24,12 @@ module Vagrant
 					return if !argv
 		  		raise Vagrant::Errors::CLIInvalidUsage, :help => opts.help.chomp if (argv.length < 1 && !options[:clean]) || (argv.length >1)
 		  		
-		  		dbmanager=DB::ClientDBManager.new
+		  		dbmanager=DB::NodeDBManager.new
 		  		
 		  		if (options[:clean])
-		  			dbmanager.remove_clients
+		  			dbmanager.remove_nodes
 		  		elsif
-		  			dbmanager.remove_client(argv[0])
+		  			dbmanager.remove_node(argv[0])
 		  		end
 					
 					0

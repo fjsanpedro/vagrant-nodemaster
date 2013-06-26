@@ -12,11 +12,8 @@ module Vagrant
 				options[:force] = false
 
 				opts = OptionParser.new do |opts|
-					opts.banner = "Usage: vagrant remote ssh <client-name> <vm_name> [--force] [-h]"
-					opts.separator ""
-					opts.on("-f", "--force", "Force shut down") do |f|
-						options[:force] = f
-					end
+					opts.banner = "Usage: vagrant remote ssh <node-name> <vm_name> [-h]"
+					
 				end
 
 
@@ -31,14 +28,9 @@ module Vagrant
 				#Gettting SSH Config for vm. Inside this machine, the parameter
 				#port is one that will be used at the client to make the redirection
 				#to the virtual machine 
-				vminfo=RequestController.vm_ssh_config(argv[0],argv[1])				
-				raise Errors::SSHNotReady if vminfo.nil?
-				
-				
-				#Change the target machine
-			#	puts vminfo
-#				vminfo[:host]=argv[0]
+				vminfo=RequestController.vm_ssh_config(argv[0],argv[1])
 								
+				raise Errors::SSHNotReady if vminfo.nil?
 				
 				SSH.exec(vminfo)
 				

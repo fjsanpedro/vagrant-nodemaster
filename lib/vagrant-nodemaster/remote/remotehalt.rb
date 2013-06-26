@@ -8,7 +8,7 @@ module Vagrant
 				options[:force] = false
 
 				opts = OptionParser.new do |opts|
-					opts.banner = "Usage: vagrant remote halt <client-name> [vm_name] [--force] [-h]"
+					opts.banner = "Usage: vagrant remote halt <node-name> [vm_name] [--force] [-h]"
 					opts.separator ""
 					opts.on("-f", "--force", "Force shut down") do |f|
 						options[:force] = f
@@ -26,7 +26,7 @@ module Vagrant
 					machines=RequestController.vm_halt(argv[0],argv[1],options[:force])
 
 					machines.each do |machine|
-					@env.ui.info("Remote Client \"#{argv[0]}\":Virtual Machine \"#{machine}\" halted")
+					@env.ui.info("Remote Client \"#{argv[0]}\": Virtual Machine \"#{machine}\" halted")
 					end          				
 
 

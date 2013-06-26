@@ -9,7 +9,7 @@ module Vagrant
 				options = {}
 	
 				opts = OptionParser.new do |opts|
-					opts.banner = "Usage: vagrant remote snapshot list <client-name> [vmname]"
+					opts.banner = "Usage: vagrant remote snapshot list <node-name> [vmname]"
 				end
 				
 				
