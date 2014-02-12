@@ -30,9 +30,9 @@ Adds a node identified by node-name, with the ip node-address (or dns name if `-
 
 * `vagrant node status`: Shows the list of nodes and its status, e.g. if they are listening.
 
-* `vagrant node list`: Shows the list of nodes and its configurations
+* `vagrant node list`: Shows the list of nodes and its configurations
 
-* `vagrant node operation last <node-name>`: Shows the last operations performed in the nodes and its result.
+* `vagrant node operation last <node-name>`: Shows the last operations performed in the nodes and its result.
 
 * `vagrant node operation show <node-name> <operation-id>`: Shows the result of the operation with the identifier operation-id.
 
@@ -40,11 +40,11 @@ Adds a node identified by node-name, with the ip node-address (or dns name if `-
 The command `Vagrant remote` enables you to execute in remote nodes those commands that you can use locally. Also, some new ones have been added. Commands are performed, by default, asynchronous.
 
 * `vagrant remote box`
- * `vagrant remote box add <node-name> <box-name> <url> [--synchronous]`: Executes `vagrant box add <box-name> <url>` in node identified by *node-name*.
+  * `vagrant remote box add <node-name> <box-name> <url> [--synchronous]`: Executes `vagrant box add <box-name> <url>` in node identified by *node-name*.
 
- * `vagrant remote box list <node-name>`: Executes `vagrant box list` in node identified by *node-name*.
+  * `vagrant remote box list <node-name>`: Executes `vagrant box list` in node identified by *node-name*.
 
- * `vagrant remote box remove <node-name> <box-name> <box-provider>`: Executes `vagrant box remove <box-name> <box-provider>` in node identified by *node-name*.
+  * `vagrant remote box remove <node-name> <box-name> <box-provider>`: Executes `vagrant box remove <box-name> <box-provider>` in node identified by *node-name*.
 
 * `vagrant remote destroy <node-name> [vm_name] [--force]`: Executes `vagrant destroy [vm_name] [--force]` in node identified by *node-name*.
 
@@ -65,29 +65,29 @@ The command `Vagrant remote` enables you to execute in remote nodes those comman
 
 * `vagrant remote snapshot` (New command)
 
- * `vagrant remote snapshot take <node-name> <vmname> <name> [description] [--synchronous]`: Takes a snapshot of the current state of the virtual machine *vmname* in remote node *node-name*. This snapshot is identified by *name* and optionally can have a *description*.
+  * `vagrant remote snapshot take <node-name> <vmname> <name> [description] [--synchronous]`: Takes a snapshot of the current state of the virtual machine *vmname* in remote node *node-name*. This snapshot is identified by *name* and optionally can have a *description*.
 
- * `vagrant remote snapshot restore <node-name> <vmname> <snapshot-uuid|snapshot-name]> [--synchronous]`: Restores the snapshot identified by its *snapshot-uuid* or by its *snapshot-name* of the virtual machine *vmname* in remote node *node-name*.
+  * `vagrant remote snapshot restore <node-name> <vmname> <snapshot-uuid|snapshot-name]> [--synchronous]`: Restores the snapshot identified by its *snapshot-uuid* or by its *snapshot-name* of the virtual machine *vmname* in remote node *node-name*.
 
- * `vagrant remote snapshot list <node-name> [vmname]`: Shows the list of snapshots of the virtual machine *vmname* in remote *node-name*. This list also shows the current snapshot that is in use.
+  * `vagrant remote snapshot list <node-name> [vmname]`: Shows the list of snapshots of the virtual machine *vmname* in remote *node-name*. This list also shows the current snapshot that is in use.
 
 
 * `vagrant remote backup` (New command)
 
- * `vagrant remote backup take [node-name] [vmname] [--download target_directory][--background]`: This command allows you to make a backup of the virtual machine *vmname* in remote node *node-name*. This backup includes all the virtual machine images, and it is stored in a fixed place of the remote node. Also you can use the parameter `--download` to download the backup at the same time that is is taking. With parameter `--background`, this operation is donde in background.
+  * `vagrant remote backup take [node-name] [vmname] [--download target_directory][--background]`: This command allows you to make a backup of the virtual machine *vmname* in remote node *node-name*. This backup includes all the virtual machine images, and it is stored in a fixed place of the remote node. Also you can use the parameter `--download` to download the backup at the same time that is is taking. With parameter `--background`, this operation is donde in background.
  
- * `vagrant remote backup log <node-name> [vmname]`: Shows the log of backup operations done in virtual machine *vmname* in remote node *node-name*.
+  * `vagrant remote backup log <node-name> [vmname]`: Shows the log of backup operations done in virtual machine *vmname* in remote node *node-name*.
  
 
 * `vagrant remote config` (New command)
 
- * `vagrant remote config addvm <node-name> <vm_config_file> [--rename]`: Adds the machines configured in `vm_config_file`to the remote node. To avoid name collision you can use the `--rename` option to rename them automatically.
+  * `vagrant remote config addvm <node-name> <vm_config_file> [--rename]`: Adds the machines configured in `vm_config_file`to the remote node. To avoid name collision you can use the `--rename` option to rename them automatically.
 
- * `vagrant remote config deletevm <node-name> <vm_name> [--remove]`: Deletes the machine with name `vm_name`from the remote node config file. Also, if the parameter `--remove` is used, all the virtual machine information and data will be removed.
+  * `vagrant remote config deletevm <node-name> <vm_name> [--remove]`: Deletes the machine with name `vm_name`from the remote node config file. Also, if the parameter `--remove` is used, all the virtual machine information and data will be removed.
 
- * `vagrant remote config show <node-name>`: Downloads the remote node config file.
+  * `vagrant remote config show <node-name>`: Downloads the remote node config file.
 
- * `vagrant remote config upload <node-name> <config_file>`: Uploads a config file to the remote node overwritting the current one.
+  * `vagrant remote config upload <node-name> <config_file>`: Uploads a config file to the remote node overwritting the current one.
 
 
 
