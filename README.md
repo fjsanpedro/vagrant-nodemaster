@@ -77,6 +77,7 @@ The command `Vagrant remote` enables you to execute in remote nodes those comman
  * `vagrant remote backup take [node-name] [vmname] [--download target_directory][--background]`: This command allows you to make a backup of the virtual machine *vmname* in remote node *node-name*. This backup includes all the virtual machine images, and it is stored in a fixed place of the remote node. Also you can use the parameter `--download` to download the backup at the same time that is is taking. With parameter `--background`, this operation is donde in background.
  
  * `vagrant remote backup log <node-name> [vmname]`: Shows the log of backup operations done in virtual machine *vmname* in remote node *node-name*.
+ 
 
 * `vagrant remote config` (New command)
 
