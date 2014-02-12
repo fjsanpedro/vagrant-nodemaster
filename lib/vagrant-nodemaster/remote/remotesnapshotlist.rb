@@ -21,6 +21,7 @@ module Vagrant
 				snapshots = RequestController.get_remote_snapshots(argv[0],argv[1])			
 				
 				@env.ui.info("Remote Client \"#{argv[0]}\":", :prefix => false)
+				
 				snapshots.each do |vmname,snapshots|
 						
 						if (!snapshots || snapshots.empty?)

@@ -1,6 +1,6 @@
 
 require 'vagrant/plugin'
- 
+require 'vagrant-nodemaster/node/nodedbmanager' 
 
 module Vagrant
   module NodeMaster
@@ -10,7 +10,10 @@ module Vagrant
 			super
 
 			@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
-
+     
+      #Initializing db structure
+      DB::NodeDBManager.new(@env.data_dir)
+      
 #			puts "MAIN ARGS #{@main_args}"
 #			puts "SUB COMMAND #{@sub_command}"
 #			puts "SUB ARGS #{@sub_args}"
@@ -40,6 +43,11 @@ module Vagrant
 					require File.expand_path("../remote/remotehalt", __FILE__)
 					HaltVM
 				end
+				
+				# @subcommands.register(:add) do
+          # require File.expand_path("../remote/remoteadd", __FILE__)
+          # AddVM
+        # end
 				
 				@subcommands.register(:suspend) do
 					require File.expand_path("../remote/remotesuspend", __FILE__)
@@ -81,6 +89,11 @@ module Vagrant
 					BackupCommand
 				end
 				
+				@subcommands.register(:config) do
+          require File.expand_path("../remote/remoteconfigcommand", __FILE__)            
+          ConfigCommand
+        end
+				
 			end
 
 		def execute
@@ -99,12 +112,12 @@ module Vagrant
 			begin				
 				# Initialize and execute the command class
 				command_class.new(@sub_args, @env).execute
+			rescue RestClient::ExceptionWithResponse=> e          
+      @env.ui.error(e.response)
 			rescue RestClient::RequestFailed => e
 				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Request Failed")
 			rescue RestClient::ResourceNotFound => e          
-				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Virtual Machine \"#{@sub_args[1]}\" could not be found")
-			rescue RestClient::ExceptionWithResponse=> e          
-				@env.ui.error(e.response)
+				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Virtual Machine \"#{@sub_args[1]}\" could not be found")			
 			rescue Exception => e
 				@env.ui.error(e.message)
 			end

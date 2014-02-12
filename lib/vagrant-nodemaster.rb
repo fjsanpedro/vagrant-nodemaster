@@ -1,15 +1,17 @@
 require "vagrant-nodemaster/version"
-
+require 'vagrant-nodemaster/node/nodedbmanager' 
 module Vagrant
   module NodeMaster
     class Plugin < Vagrant.plugin("2")
     
+      
     	name "remote"
     	description <<-DESC
     	Este es mi primer plugin y estoy probando la estructura
     	DESC
 
-
+      
+      
     	command ('remote') do
     		require_relative "vagrant-nodemaster/remotecommand"
     		Command

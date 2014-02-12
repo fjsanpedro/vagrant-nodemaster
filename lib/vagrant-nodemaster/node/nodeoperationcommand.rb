@@ -1,61 +1,30 @@
 require 'vagrant/plugin'
 require 'sqlite3'
-require 'vagrant-nodemaster/node/nodedbmanager' 
+
 
 module Vagrant
   module NodeMaster
    
-		class Command < Vagrant.plugin(2, :command)
+		class NodeOperationCommand < Vagrant.plugin(2, :command)
 			
 			def initialize(argv, env)
 				super
 				
-				@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
+				@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)				
 				
-				#Initializing db structure
-        DB::NodeDBManager.new(@env.data_dir)
-				
-#				puts "MAIN ARGS #{@main_args}"
-#				puts "SUB COMMAND #{@sub_command}"
-#				puts "SUB ARGS #{@sub_args}"
 				
 				@subcommands = Vagrant::Registry.new
 				
-				@subcommands.register(:list) do
-					require File.expand_path("../node/nodelist", __FILE__)
-					NodeList
+				@subcommands.register(:show) do
+					require File.expand_path("../nodeoperationshow", __FILE__)
+					NodeOperationShow
 				end       
 				
-				@subcommands.register(:add) do
-					require File.expand_path("../node/nodeadd", __FILE__)
-					NodeAdd
-				end
-				
-				@subcommands.register(:remove) do
-					require File.expand_path("../node/noderemove", __FILE__)
-					NodeRemove
-				end
-			
-				@subcommands.register(:update) do
-					require File.expand_path("../node/nodeupdate", __FILE__)
-					NodeUpdate
-				end
-				
-				@subcommands.register(:updatepw) do
-          require File.expand_path("../node/nodeupdatepw", __FILE__)
-          NodeUpdatePw
-        end
-
-				@subcommands.register(:status) do
-					require File.expand_path("../node/nodestatus", __FILE__)
-					NodeStatus
-				end
-				
-				@subcommands.register(:operation) do
-          require File.expand_path("../node/nodeoperationcommand", __FILE__)
-          NodeOperationCommand
-        end
-				
+				@subcommands.register(:last) do
+					require File.expand_path("../nodeoperationlast", __FILE__)
+					NodeOperationLast
+				end				
+								
 			end
 
 			

@@ -6,13 +6,17 @@ module Vagrant
 			def execute
 				options = {}
 				options[:force] = false
+				options[:async] = true
 
 				opts = OptionParser.new do |opts|
-					opts.banner = "Usage: vagrant remote halt <node-name> [vm_name] [--force] [-h]"
+					opts.banner = "Usage: vagrant remote halt <node-name> [vm_name] [--force] [--synchronous] [-h]"
 					opts.separator ""
 					opts.on("-f", "--force", "Force shut down") do |f|
 						options[:force] = f
 					end
+					opts.on("-s", "--synchronous", "Wait until the operation finishes") do |f|
+            options[:async] = false
+          end
 				end
 
 
@@ -23,11 +27,16 @@ module Vagrant
 
 #				begin          		          		
 
-					machines=RequestController.vm_halt(argv[0],argv[1],options[:force])
+					machines=RequestController.vm_halt(argv[0],argv[1],options[:force],options[:async])
 
-					machines.each do |machine|
-					@env.ui.info("Remote Client \"#{argv[0]}\": Virtual Machine \"#{machine}\" halted")
-					end          				
+          if options[:async] == false   
+  					machines.each do |machine|
+  					 @env.ui.success("Remote Client \"#{argv[0]}\": Virtual Machine \"#{machine["vmname"]}\" halted")
+  					end          				
+					else
+					  @env.ui.info("Remote Client \"#{argv[0]}\": The operation ID is \"#{machines.gsub!(/\D/, "")}\"")
+					end
+  					  
 
 
 #				rescue RestClient::RequestFailed => e
