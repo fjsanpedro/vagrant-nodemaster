@@ -1,5 +1,6 @@
 require 'vagrant/plugin'
 require 'sqlite3'
+require 'vagrant-nodemaster/node/nodedbmanager' 
 
 module Vagrant
   module NodeMaster
@@ -10,6 +11,9 @@ module Vagrant
 				super
 				
 				@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
+				
+				#Initializing db structure
+        DB::NodeDBManager.new(@env.data_dir)
 				
 #				puts "MAIN ARGS #{@main_args}"
 #				puts "SUB COMMAND #{@sub_command}"
@@ -37,10 +41,25 @@ module Vagrant
 					NodeUpdate
 				end
 
+				@subcommands.register(:info) do
+					require File.expand_path("../node/nodeinfo", __FILE__)
+					NodeInfo
+				end
+				
+				@subcommands.register(:updatepw) do
+          require File.expand_path("../node/nodeupdatepw", __FILE__)
+          NodeUpdatePw
+        end
+
 				@subcommands.register(:status) do
 					require File.expand_path("../node/nodestatus", __FILE__)
 					NodeStatus
 				end
+				
+				@subcommands.register(:operation) do
+          require File.expand_path("../node/nodeoperationcommand", __FILE__)
+          NodeOperationCommand
+        end
 				
 			end
 

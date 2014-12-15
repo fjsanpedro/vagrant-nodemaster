@@ -1,6 +1,6 @@
 
 require 'vagrant/plugin'
- 
+require 'vagrant-nodemaster/node/nodedbmanager' 
 
 module Vagrant
   module NodeMaster
@@ -10,7 +10,10 @@ module Vagrant
 			super
 
 			@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
-
+     
+      #Initializing db structure
+      DB::NodeDBManager.new(@env.data_dir)
+      
 #			puts "MAIN ARGS #{@main_args}"
 #			puts "SUB COMMAND #{@sub_command}"
 #			puts "SUB ARGS #{@sub_args}"
@@ -26,60 +29,75 @@ module Vagrant
 #            BoxList
 #          end
 				
-				@subcommands.register(:box) do
-					require File.expand_path("../remote/remoteboxcommand", __FILE__)            
-					BoxCommand
-				end
+			@subcommands.register(:box) do
+				require File.expand_path("../remote/remoteboxcommand", __FILE__)            
+				BoxCommand
+			end
+			
+			@subcommands.register(:up) do
+				require File.expand_path("../remote/remoteup", __FILE__)
+				UpVM
+			end
+			
+			@subcommands.register(:halt) do
+				require File.expand_path("../remote/remotehalt", __FILE__)
+				HaltVM
+			end
 				
-				@subcommands.register(:up) do
-					require File.expand_path("../remote/remoteup", __FILE__)
-					UpVM
-				end
+				# @subcommands.register(:add) do
+          # require File.expand_path("../remote/remoteadd", __FILE__)
+          # AddVM
+        # end
 				
-				@subcommands.register(:halt) do
-					require File.expand_path("../remote/remotehalt", __FILE__)
-					HaltVM
-				end
-				
-				@subcommands.register(:suspend) do
-					require File.expand_path("../remote/remotesuspend", __FILE__)
-					SuspendVM
-				end
-				
-				@subcommands.register(:resume) do
-					require File.expand_path("../remote/remoteresume", __FILE__)
-					ResumeVM
-				end
-				
-				@subcommands.register(:status) do
-					require File.expand_path("../remote/remotevmstatus", __FILE__)
-					StatusVM
-				end
-				
-				@subcommands.register(:destroy) do
-					require File.expand_path("../remote/remotedestroy", __FILE__)
-					DestroyVM
-				end
-				
-				@subcommands.register(:provision) do
-					require File.expand_path("../remote/remoteprovision", __FILE__)
-					ProvisionVM
-				end
+			@subcommands.register(:suspend) do
+				require File.expand_path("../remote/remotesuspend", __FILE__)
+				SuspendVM
+			end
+			
+			@subcommands.register(:resume) do
+				require File.expand_path("../remote/remoteresume", __FILE__)
+				ResumeVM
+			end
+			
+			@subcommands.register(:status) do
+				require File.expand_path("../remote/remotevmstatus", __FILE__)
+				StatusVM
+			end
+			
+			@subcommands.register(:destroy) do
+				require File.expand_path("../remote/remotedestroy", __FILE__)
+				DestroyVM
+			end
+			
+			@subcommands.register(:provision) do
+				require File.expand_path("../remote/remoteprovision", __FILE__)
+				ProvisionVM
+			end
 
-				@subcommands.register(:ssh) do
-					require File.expand_path("../remote/remotessh", __FILE__)
-					SSHVM
-				end
+			@subcommands.register(:info) do
+				require File.expand_path("../remote/remotevminfo", __FILE__)
+				InfoVM
+			end
 
-				@subcommands.register(:snapshot) do
-					require File.expand_path("../remote/remotesnapshotcommand", __FILE__)
-					SnapshotCommand
-				end
-				
-				@subcommands.register(:backup) do
-					require File.expand_path("../remote/remotebackupcommand", __FILE__)            
-					BackupCommand
-				end
+			@subcommands.register(:ssh) do
+				require File.expand_path("../remote/remotessh", __FILE__)
+				SSHVM
+			end
+
+			@subcommands.register(:snapshot) do
+				require File.expand_path("../remote/remotesnapshotcommand", __FILE__)
+				SnapshotCommand
+			end
+			
+			@subcommands.register(:backup) do
+				require File.expand_path("../remote/remotebackupcommand", __FILE__)            
+				BackupCommand
+			end
+			
+			@subcommands.register(:config) do
+				require File.expand_path("../remote/remoteconfigcommand", __FILE__)            
+			ConfigCommand
+        end
 				
 			end
 
@@ -99,12 +117,12 @@ module Vagrant
 			begin				
 				# Initialize and execute the command class
 				command_class.new(@sub_args, @env).execute
+			rescue RestClient::ExceptionWithResponse=> e          
+      @env.ui.error(e.response)
 			rescue RestClient::RequestFailed => e
 				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Request Failed")
 			rescue RestClient::ResourceNotFound => e          
-				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Virtual Machine \"#{@sub_args[1]}\" could not be found")
-			rescue RestClient::ExceptionWithResponse=> e          
-				@env.ui.error(e.response)
+				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Virtual Machine \"#{@sub_args[1]}\" could not be found")			
 			rescue Exception => e
 				@env.ui.error(e.message)
 			end
