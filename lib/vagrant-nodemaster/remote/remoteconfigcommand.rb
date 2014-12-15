@@ -5,43 +5,50 @@ require 'vagrant/plugin'
 module Vagrant
   module NodeMaster
  
-	class BoxCommand < Vagrant.plugin(2, :command)
+	class ConfigCommand < Vagrant.plugin(2, :command)
 		def initialize(argv, env)
-          super
+			super
 
-          @main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
+			@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
 
 #			puts "MAIN ARGS #{@main_args}"
 #			puts "SUB COMMAND #{@sub_command}"
 #			puts "SUB ARGS #{@sub_args}"
 
-          @subcommands = Vagrant::Registry.new
-#          @subcommands.register(:add) do
-#            require File.expand_path("../add", __FILE__)
-#            Add
-#          end
-#
-          @subcommands.register(:list) do
-            require File.expand_path("../remoteboxlist", __FILE__)
-            BoxList
-          end
-          
-          @subcommands.register(:remove) do
-            require File.expand_path("../remoteboxdelete", __FILE__)
-            BoxDelete
-          end
-          
-          @subcommands.register(:add) do
-            require File.expand_path("../remoteboxadd", __FILE__)
-            BoxAdd
-          end
+			@subcommands = Vagrant::Registry.new
 
-          @subcommands.register(:downloads) do
-            require File.expand_path("../remoteboxdownload", __FILE__)
-            BoxDownload
-          end
-                  
+			@subcommands.register(:show) do
+				require File.expand_path("../remoteconfigshow", __FILE__)
+				ConfigShow
+			end
+			
+			# @subcommands.register(:load) do
+        # require File.expand_path("../remoteconfigload", __FILE__)
+        # ConfigShow
+      # end
+      
+        @subcommands.register(:addvm) do
+          require File.expand_path("../remoteconfigaddvm", __FILE__)
+          AddVM
         end
+        
+        @subcommands.register(:deletevm) do
+          require File.expand_path("../remoteconfigdeletevm", __FILE__)
+          DeleteVM
+        end
+        
+        @subcommands.register(:upload) do
+          require File.expand_path("../remoteconfigupload", __FILE__)
+          ConfigUpload
+        end
+			
+			# @subcommands.register(:log) do
+				# require File.expand_path("../remotebackuplog", __FILE__)
+				# BackupLog
+			# end
+							
+
+		end
 
 		def execute
 #			if @main_args.include?("-h") || @main_args.include?("--help")
@@ -60,12 +67,12 @@ module Vagrant
 			begin	
 				# Initialize and execute the command class
 				command_class.new(@sub_args, @env).execute
+			rescue RestClient::ExceptionWithResponse=> e          
+        @env.ui.error(e.response)
 			rescue RestClient::RequestFailed => e
 				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Request Failed")
 			rescue RestClient::ResourceNotFound => e          
-				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Box \"#{@sub_args[1]}\" could not be found")
-			rescue RestClient::ExceptionWithResponse=> e          
-				@env.ui.error(e.response)
+				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Box \"#{@sub_args[1]}\" could not be found")			
 			rescue Exception => e
 				@env.ui.error(e.message)
 			end
@@ -75,7 +82,7 @@ module Vagrant
 		
 		def help
 			opts = OptionParser.new do |opts|
-				opts.banner = "Usage: vagrant remote box <command> [<args>]"
+				opts.banner = "Usage: vagrant remote config <command> [<args>]"
 				opts.separator ""
 				opts.separator "Available subcommands:"
 	

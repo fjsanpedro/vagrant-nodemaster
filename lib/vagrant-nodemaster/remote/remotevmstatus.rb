@@ -18,7 +18,7 @@ module Vagrant
 					machine_status=RequestController.vm_status(argv[0],argv[1])
 	
 					@env.ui.info("Remote Client: #{argv[0]}", :prefix => false)
-					
+	
 					machine_status.each do |machine|
 						@env.ui.info(" * #{machine["name"].ljust(25)}   #{machine["status"]} (#{machine["provider"]})", :prefix => false) 
 					end          				

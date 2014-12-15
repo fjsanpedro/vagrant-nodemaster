@@ -24,12 +24,12 @@ module Vagrant
 					return if !argv
 		  		raise Vagrant::Errors::CLIInvalidUsage, :help => opts.help.chomp if (argv.length < 1 && !options[:clean]) || (argv.length >1)
 		  		
-		  		dbmanager=DB::NodeDBManager.new
+		  		#dbmanager=DB::NodeDBManager.new
 		  		
 		  		if (options[:clean])
-		  			dbmanager.remove_nodes
+		  			DB::NodeDBManager.remove_nodes
 		  		elsif
-		  			dbmanager.remove_node(argv[0])
+		  			DB::NodeDBManager.remove_node(argv[0])
 		  		end
 					
 					0

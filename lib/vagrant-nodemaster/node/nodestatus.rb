@@ -19,13 +19,13 @@ module Vagrant
 					return if !argv
 		  		raise Vagrant::Errors::CLIInvalidUsage, :help => opts.help.chomp if argv.length != 0
 		  		
-		  		dbmanager=DB::NodeDBManager.new
+		  		#dbmanager=DB::NodeDBManager.new
 
 					status = {}
 							  		
 
 
-					dbmanager.get_nodes.each do |entry|							
+					DB::NodeDBManager.get_nodes.each do |entry|							
 							status[entry[:name]]=ERROR
 							if port_open?(entry[:address],entry[:port])
 								status[entry[:name]]=OK

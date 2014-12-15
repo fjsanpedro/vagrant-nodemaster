@@ -5,9 +5,14 @@ module Vagrant
 		class BoxAdd < Vagrant.plugin(2, :command)
 			def execute
 				options = {}
+        options[:async] = true
 	
 				opts = OptionParser.new do |opts|
-					opts.banner = "Usage: vagrant remote box add <node-name> <box-name> <url>"
+					opts.banner = "Usage: vagrant remote box add <node-name> <box-name> <url> [--synchronous]"
+					opts.separator ""
+          opts.on("-s", "--synchronous", "Wait until the operation finishes") do |f|
+            options[:async] = false
+          end
 				end
 				
 				
@@ -17,14 +22,12 @@ module Vagrant
 				raise Vagrant::Errors::CLIInvalidUsage, :help => opts.help.chomp if argv.length != 3
 		
 				
-					
-#				begin
+				res = RequestController.box_add(argv[0],argv[1],argv[2],options[:async])
 				
-					RequestController.box_add(argv[0],argv[1],argv[2])
-#					@env.ui.info("Remote Client \"#{argv[0]}\": Box \"#{argv[1]}\" with provider \"#{argv[2]}\" removed")
-#				rescue RestClient::ResourceNotFound => e          
-#					@env.ui.error("Remote Client \"#{argv[0]}\": Box \"#{argv[1]}\" with provider \"#{argv[2]}\" could not be found")			
-#				end
+				@env.ui.success("Remote Client \"#{argv[0]}\": Box \"#{argv[1]}\" added") if options[:async]==false
+ 
+				@env.ui.info("Remote Client \"#{argv[0]}\": The operation ID is \"#{res.gsub!(/\D/, "")}\"") if options[:async]==true
+
 						
 				0
 			end

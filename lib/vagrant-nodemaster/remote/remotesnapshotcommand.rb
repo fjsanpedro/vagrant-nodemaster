@@ -33,6 +33,11 @@ module Vagrant
             SnapshotRestore
           end
           
+          @subcommands.register(:delete) do
+            require File.expand_path("../remotesnapshotdelete", __FILE__)
+            SnapshotDelete
+          end
+          
         
         end
 
@@ -52,12 +57,12 @@ module Vagrant
 			begin	
 				# Initialize and execute the command class
 				command_class.new(@sub_args, @env).execute
+			rescue RestClient::ExceptionWithResponse=> e          
+        @env.ui.error(e.response)
 			rescue RestClient::RequestFailed => e
 				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Request Failed")
 			rescue RestClient::ResourceNotFound => e          
-				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Virtual Machine \"#{@sub_args[1]}\" could not be found")
-			rescue RestClient::ExceptionWithResponse=> e          
-				@env.ui.error(e.response)
+				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Virtual Machine \"#{@sub_args[1]}\" could not be found")			
 			rescue Exception => e
 				@env.ui.error(e.message)
 			end
