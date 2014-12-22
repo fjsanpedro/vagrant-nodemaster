@@ -22,9 +22,20 @@ module Vagrant
 		  		
 		  		#dbmanager=DB::NodeDBManager.new
 		  		
-		  		DB::NodeDBManager.add_node(argv[0],argv[1],argv[2].to_i,argv[3],options[:dns])
-					
-					0
+		  		
+				begin
+
+					DB::NodeDBManager.add_node(argv[0],argv[1],argv[2].to_i,argv[3],options[:dns])
+								
+				rescue Exception => e
+					if e.class == SQLite3::ConstraintException
+						@env.ui.error("Error adding node '#{argv[0]}': There is a node with the same name")
+					else 
+						@env.ui.error("Error adding node '#{argv[0]}': "+e.message)
+					end
+				end	
+				
+				0
 			end
   
   	end

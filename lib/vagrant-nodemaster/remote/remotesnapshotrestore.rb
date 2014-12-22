@@ -12,8 +12,8 @@ module Vagrant
 					opts.banner = "Usage: vagrant remote snapshot restore <node-name> <vmname> <snapshot-uuid|snapshot-name] [--synchronous]>"
 					opts.separator ""
 					opts.on("-s", "--synchronous", "Wait until the operation finishes") do |f|
-              options[:async] = false
-           end
+		              options[:async] = false
+		           	end
 				end
 				
 				
@@ -27,9 +27,9 @@ module Vagrant
 				
 				if options[:async] == false
 					@env.ui.info("Remote Client \"#{argv[0]}\": Virtual Machine \"#{argv[1]}\" => Restoring snapshot \"#{argv[2]}\"", :prefix => false)					
-        else
-          @env.ui.info("Remote Client \"#{argv[0]}\": The operation ID is \"#{snapshot.gsub!(/\D/, "")}\"")
-        end 
+		        else
+		          @env.ui.info("Remote Client \"#{argv[0]}\": The operation ID is \"#{snapshot.gsub!(/\D/, "")}\"")
+		        end 
 				
 				
 				

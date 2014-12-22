@@ -13,7 +13,7 @@ module Vagrant
 				@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
 				
 				#Initializing db structure
-        DB::NodeDBManager.new(@env.data_dir)
+        		DB::NodeDBManager.new(@env.data_dir)
 				
 #				puts "MAIN ARGS #{@main_args}"
 #				puts "SUB COMMAND #{@sub_command}"
@@ -47,9 +47,9 @@ module Vagrant
 				end
 				
 				@subcommands.register(:updatepw) do
-          require File.expand_path("../node/nodeupdatepw", __FILE__)
-          NodeUpdatePw
-        end
+		          require File.expand_path("../node/nodeupdatepw", __FILE__)
+		          NodeUpdatePw
+		        end
 
 				@subcommands.register(:status) do
 					require File.expand_path("../node/nodestatus", __FILE__)
@@ -57,9 +57,15 @@ module Vagrant
 				end
 				
 				@subcommands.register(:operation) do
-          require File.expand_path("../node/nodeoperationcommand", __FILE__)
-          NodeOperationCommand
-        end
+		          require File.expand_path("../node/nodeoperationcommand", __FILE__)
+		          NodeOperationCommand
+		        end
+
+
+				@subcommands.register(:import) do
+		          require File.expand_path("../node/nodeimport", __FILE__)
+		          NodeImport
+		        end
 				
 			end
 

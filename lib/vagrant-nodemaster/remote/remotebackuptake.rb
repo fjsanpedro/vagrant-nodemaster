@@ -15,12 +15,12 @@ module Vagrant
 				opts = OptionParser.new do |opts|
 					opts.banner = "Usage: vagrant remote backup take [node-name] [vmname] [--download target_directory][--background] [-h]"
 					opts.separator ""
-          opts.on("-b", "--background", "Take backup in background") do |b|
-                  options[:background] = b
-          end
-          opts.on("--download target_directory", String,"Download backup to target directory") do |d|          				          				
-                  options[:download] = d
-          end
+				opts.on("-b", "--background", "Take backup in background") do |b|
+				  options[:background] = b
+				end
+				opts.on("--download target_directory", String,"Download backup to target directory") do |d|          				          				
+				  options[:download] = d
+				end
 
 				end
 				

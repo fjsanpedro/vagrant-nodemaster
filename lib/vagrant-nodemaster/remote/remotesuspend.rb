@@ -11,9 +11,9 @@ module Vagrant
 				opts = OptionParser.new do |opts|
 					opts.banner = "Usage: vagrant remote suspend <node-name> [vm_name] [--synchronous]"
 					opts.separator ""
-          opts.on("-s", "--synchronous", "Wait until the operation finishes") do |f|
-            options[:async] = false
-          end
+			          opts.on("-s", "--synchronous", "Wait until the operation finishes") do |f|
+			            options[:async] = false
+			          end
 				end
 				
 				argv = parse_options(opts)
