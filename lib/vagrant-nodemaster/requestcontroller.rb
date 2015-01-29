@@ -19,6 +19,7 @@ module NodeMaster
 		DELETE_VERB = :delete
 		PUT_VERB = :put
 		SYNC_TIME = 10
+		OPERATION_IN_PROGRESS = 100
 		
 		def self.box_downloads(host)
 			client=get_host_parameters(host)
@@ -61,7 +62,7 @@ module NodeMaster
 			
 			resource = RestClient::Resource.new(
 				RouteManager.box_add_url(client[:address],client[:port]),					
-				:timeout => -1						
+				:timeout => nil						
 			)
 			
 			
@@ -80,12 +81,12 @@ module NodeMaster
 			#setting the request not to expire
 			resource = RestClient::Resource.new(
 				RouteManager.vm_up_url(client[:address],client[:port]),					
-				:timeout => -1						
+				:timeout => nil						
 			)
 			
 								
-		  	response = execute(client,POST_VERB,resource,{:vmname => vmname},async);
-		  
+		  	response = execute(client,POST_VERB,resource,{:vmname => vmname},async);		  
+		  	
 			return JSON.parse(response.to_str) if async ==false
 			response
 			
@@ -97,10 +98,11 @@ module NodeMaster
 			#setting the request not to expire
 			resource = RestClient::Resource.new(
 				RouteManager.vm_halt_url(client[:address],client[:port]),
-				:timeout => -1
+				:timeout => nil
 			)
 			
 		  	response = execute(client,POST_VERB,resource,{:vmname => vmname,:force=>force},async);
+		  	
 			return JSON.parse(response.to_str) if async ==false
     		response
 			
@@ -111,7 +113,7 @@ module NodeMaster
 			
 			resource = RestClient::Resource.new(
 				RouteManager.vm_destroy_url(client[:address],client[:port]),
-				:timeout => -1  				
+				:timeout => nil  				
 			)
 			
 			
@@ -141,7 +143,7 @@ module NodeMaster
 		    
 		    resource = RestClient::Resource.new(
 		      RouteManager.vm_add_url(client[:address],client[:port]),
-		      :timeout => -1 ,
+		      :timeout => nil ,
 		      # :payload => {
 		        # :content_type => 'text/plain',
 		        # :file => File.new(config, 'rb')
@@ -202,7 +204,7 @@ module NodeMaster
 			#setting the request not to expire
 			resource = RestClient::Resource.new(
 				RouteManager.vm_suspend_url(client[:address],client[:port]),					
-				:timeout => -1						
+				:timeout => nil						
 			)
 			
 								
@@ -219,7 +221,7 @@ module NodeMaster
 			#setting the request not to expire
 			resource = RestClient::Resource.new(
 				RouteManager.vm_resume_url(client[:address],client[:port]),					
-				:timeout => -1						
+				:timeout => nil						
 			)				
 			
 		  	response = execute(client,POST_VERB,resource,{:vmname => vmname},async);
@@ -236,7 +238,7 @@ module NodeMaster
 			#setting the request not to expire
 			resource = RestClient::Resource.new(
 				RouteManager.vm_provision_url(client[:address],client[:port]),					
-				:timeout => -1						
+				:timeout => nil						
 			)				
 			
 								
@@ -272,7 +274,7 @@ module NodeMaster
 				
 			resource = RestClient::Resource.new(
 				RouteManager.vm_snapshot_take_url(client[:address],client[:port],vmname),					 					
-				:timeout => -1,											
+				:timeout => nil,											
 			)				
 
     
@@ -291,7 +293,7 @@ module NodeMaster
 		    #setting the request not to expire                  
 		    resource = RestClient::Resource.new(
 		      RouteManager.vm_snapshot_delete_url(client[:address],client[:port],vmname,snapid),                   
-		      :timeout => -1,                     
+		      :timeout => nil,                     
 		    )       
 
 		            
@@ -308,7 +310,7 @@ module NodeMaster
 						
 			resource = RestClient::Resource.new(
 				RouteManager.vm_snapshot_restore_url(client[:address],client[:port],vmname),					
-				:timeout => -1						
+				:timeout => nil						
 			)
 			
 			response = execute(client,POST_VERB,resource,{:vmname => vmname,:snapid => snapid},async);
@@ -383,7 +385,7 @@ module NodeMaster
 						resource = RestClient::Resource.new(
 								RouteManager.vm_snapshot_take_url(client[:address],client[:port],vm["name"]),
 								:download => download_backup,					
-								:timeout => -1						
+								:timeout => nil						
 						)
 					
 					#OLD. FIXME REMOVE
@@ -440,7 +442,7 @@ module NodeMaster
 			
 			resource = RestClient::Resource.new(
 					RouteManager.backup_log_url(client[:address],client[:port],vmname),					
-					:timeout => -1
+					:timeout => nil
 			)
 	
 	    
@@ -456,7 +458,7 @@ module NodeMaster
 			client=get_host_parameters(node)
 
 			resource = RestClient::Resource.new(
-        		RouteManager.node_info_url(client[:address],client[:port]),:timeout => -1                        
+        		RouteManager.node_info_url(client[:address],client[:port]),:timeout => nil                        
     		) 
 
 			response=execute(client,GET_VERB,resource);
@@ -474,7 +476,7 @@ module NodeMaster
 		  
 		  
 		  	resource = RestClient::Resource.new(
-        		RouteManager.config_show_url(client[:address],client[:port]),:timeout => -1                        
+        		RouteManager.config_show_url(client[:address],client[:port]),:timeout => nil                        
     		)   
 
     			  
@@ -490,7 +492,7 @@ module NodeMaster
 		    
 		    resource = RestClient::Resource.new(
 		        RouteManager.config_upload_url(client[:address],client[:port]),         
-		        :timeout => -1                        
+		        :timeout => nil                        
 		    )    
 		    
 		    execute(client,POST_VERB,resource,{:file => File.read(config_path), :content_type => 'text/plain'})
@@ -503,7 +505,7 @@ module NodeMaster
     
     
     		resource = RestClient::Resource.new(
-        		RouteManager.node_password_change_url(client[:address],client[:port]),:timeout => -1                        
+        		RouteManager.node_password_change_url(client[:address],client[:port]),:timeout => nil                        
     		)
     
     		execute(client,POST_VERB,resource,{:password => Digest::MD5.hexdigest(password)});
@@ -552,11 +554,9 @@ module NodeMaster
 
 		      responseop = resourceop.send GET_VERB
       
-      		   res = JSON.parse(responseop.to_str)
-      
-      
-                                                    
-  			end while (res[0].eql? "IN PROGRESS") #While operation code is IN PROGRESS iterate
+      		  res = JSON.parse(responseop.to_str)
+            
+  			end while (res[0] == OPERATION_IN_PROGRESS) #While operation code is IN PROGRESS iterate
                                  
       		res[1]       
 		     

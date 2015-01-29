@@ -21,6 +21,7 @@ module Vagrant
           
           		
 					machines=RequestController.vm_up(argv[0],argv[1],options[:async])
+
           			  	
           if options[:async] == false		
   					machines.each do |machine|

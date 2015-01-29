@@ -29,10 +29,12 @@ module Vagrant
 
 					machines=RequestController.vm_halt(argv[0],argv[1],options[:force],options[:async])
 
-          if options[:async] == false   
-  					machines.each do |machine|
-  					 @env.ui.success("Remote Client \"#{argv[0]}\": Virtual Machine \"#{machine["vmname"]}\" halted")
-  					end          				
+					
+
+          			if options[:async] == false   
+	  					machines.each do |machine|
+	  					 @env.ui.success("Remote Client \"#{argv[0]}\": Virtual Machine \"#{machine["vmname"]}\" halted")
+	  					end          				
 					else
 					  @env.ui.info("Remote Client \"#{argv[0]}\": The operation ID is \"#{machines.gsub!(/\D/, "")}\"")
 					end

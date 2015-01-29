@@ -38,7 +38,13 @@ module Vagrant
 
 						@env.ui.info("#{"CPU Average:".ljust(25)} #{result[:cpuaverage][0]}% (1 Minute)  #{result[:cpuaverage][1]}% (5 Minutes)  #{result[:cpuaverage][2]}% (15 Minutes)")
 						@env.ui.info("#{"Memory Size:".ljust(25)} #{result[:memorysize]} GB (#{result[:memoryfree]} GB Free)")
-						@env.ui.info("#{"Disk Used:".ljust(25)}#{result[:diskusage]} GB")
+						#@env.ui.info("#{"Disk Used:".ljust(25)}#{result[:diskusage]} GB")
+						@env.ui.info("Disk usage:")
+
+						result[:diskusage].each do |partition|
+							@env.ui.info("\tPartition #{partition[:partition]} => Free: #{partition[:free]} Total: #{partition[:total]} (Used: #{partition[:freepercent]})")
+						end
+
 
 						interfaces = result[:interfaces].split(",")
 						
