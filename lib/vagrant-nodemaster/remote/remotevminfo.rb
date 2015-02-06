@@ -19,7 +19,7 @@ module Vagrant
 
 				@env.ui.info("Remote Client: #{argv[0]}", :prefix => false)
 
-				#pp vmstatus
+				
 
 				         				
 

@@ -22,7 +22,7 @@ module Vagrant
 		  		#dbmanager=DB::NodeDBManager.new
 
 					status = {}
-							  		
+
 
 
 					DB::NodeDBManager.get_nodes.each do |entry|							

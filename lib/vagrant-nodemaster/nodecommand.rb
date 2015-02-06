@@ -15,9 +15,6 @@ module Vagrant
 				#Initializing db structure
         		DB::NodeDBManager.new(@env.data_dir)
 				
-#				puts "MAIN ARGS #{@main_args}"
-#				puts "SUB COMMAND #{@sub_command}"
-#				puts "SUB ARGS #{@sub_args}"
 				
 				@subcommands = Vagrant::Registry.new
 				
@@ -81,18 +78,31 @@ module Vagrant
 				
 				
 				
-			  # If we reached this far then we must have a subcommand. If not,
+			  	# If we reached this far then we must have a subcommand. If not,
 				# then we also just print the help and exit.
 				command_class = @subcommands.get(@sub_command.to_sym) if @sub_command
 				return help if !command_class || !@sub_command
 				@logger.debug("Invoking command class: #{command_class} #{@sub_args.inspect}")	  
 			  
-			  begin
+			  	begin
 					# Initialize and execute the command class
 					command_class.new(@sub_args, @env).execute
 				rescue Exception => e
 					@env.ui.error(e.message)
 				end
+
+				# begin				
+				# # Initialize and execute the command class
+				# command_class.new(@sub_args, @env).execute
+				# rescue RestClient::ExceptionWithResponse=> e          
+	   #    			@env.ui.error(e.response)
+				# rescue RestClient::RequestFailed => e
+				# 	@env.ui.error("Remote Client \"#{@sub_args[0]}\": Request Failed")
+				# rescue RestClient::ResourceNotFound => e          
+				# 	@env.ui.error("Remote Client \"#{@sub_args[0]}\": Virtual Machine \"#{@sub_args[1]}\" could not be found")			
+				# rescue Exception => e
+				# 	@env.ui.error(e.message)
+				# end
 			  
     
 				0

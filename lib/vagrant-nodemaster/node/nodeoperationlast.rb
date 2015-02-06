@@ -18,7 +18,13 @@ module Vagrant
 				return if !argv
 		  		raise Vagrant::Errors::CLIInvalidUsage, :help => opts.help.chomp if argv.length != 1
 		  		
+		  		
+
 		  		result = RequestController.node_operation_queued_last(argv[0])
+
+
+		  		
+		  		
 		  		
 		  		
 		  		if (result.empty?)
@@ -26,11 +32,15 @@ module Vagrant
 		  		  
 		  		else
   		      		@env.ui.info("-------------------------------------------------------------------------------------")
-            		@env.ui.info("| RESULT CODE |          RESUL  T INFO                              |")       
+            		@env.ui.info("| RESULT CODE |   VIRTUAL MACHINE    |               RESULT INFO               |")       
             		@env.ui.info("-------------------------------------------------------------------------------------")
             
 		            result.each do |operation|            
-		              @env.ui.info("|     #{operation[0]}     |#{operation[1].ljust(5)}")
+		              code= operation[0]		              
+		              rparams=JSON.parse(operation[1],{:quirks_mode => true,:symbolize_names => true})			              
+		              vm = rparams[0].has_key?(:vmname) ? rparams[0][:vmname]: "--"		              		              
+		              result = rparams[0][:status]		              
+		              @env.ui.info("|     #{code}     |         #{vm.ljust(5)}        |   #{result.ljust(5)}  ")
 		              @env.ui.info("-------------------------------------------------------------------------------------")    
 		            end
 		  		end	  		

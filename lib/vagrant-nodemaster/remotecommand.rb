@@ -11,23 +11,11 @@ module Vagrant
 
 			@main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
      
-      #Initializing db structure
-      DB::NodeDBManager.new(@env.data_dir)
+		      #Initializing db structure
+		      DB::NodeDBManager.new(@env.data_dir)
       
-#			puts "MAIN ARGS #{@main_args}"
-#			puts "SUB COMMAND #{@sub_command}"
-#			puts "SUB ARGS #{@sub_args}"
 
-				@subcommands = Vagrant::Registry.new
-#          @subcommands.register(:add) do
-#            require File.expand_path("../add", __FILE__)
-#            Add
-#          end
-#
-#          @subcommands.register(:boxlist) do
-#            require File.expand_path("../remoteboxlist", __FILE__)
-#            BoxList
-#          end
+		@subcommands = Vagrant::Registry.new
 				
 			@subcommands.register(:box) do
 				require File.expand_path("../remote/remoteboxcommand", __FILE__)            
@@ -118,7 +106,7 @@ module Vagrant
 				# Initialize and execute the command class
 				command_class.new(@sub_args, @env).execute
 			rescue RestClient::ExceptionWithResponse=> e          
-      @env.ui.error(e.response)
+      			@env.ui.error(e.response)
 			rescue RestClient::RequestFailed => e
 				@env.ui.error("Remote Client \"#{@sub_args[0]}\": Request Failed")
 			rescue RestClient::ResourceNotFound => e          

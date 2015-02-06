@@ -2,11 +2,12 @@ vagrant-nodemaster
 ==================
 This plugin allows you to control centralizely remote virtual environments configured with the plugin [Vagrant-Node](https://github.com/fjsanpedro/vagrant-nodemaster/tree/master/lib/vagrant-node).
 
+You can also work with Vagrant-Node through a web application called [VagrantWeb](https://github.com/catedrasaes-umu/vagrantweb/). Watch the video [VagrantWeb Overview](https://www.youtube.com/watch?v=PslrNMAl_vU) to figure out all the functionality available.
 
 This plugin has been developed in the context of the [Catedra SAES](http://www.catedrasaes.org) of the University of Murcia(Spain).
 
 ##Installation
-Requires Vagrant 1.2 and libsqlite3-dev
+Requires Vagrant (minimum version 1.2.2) and libsqlite3-dev. The miminum version required of the plugin Vagrant-Node in each node is 1.1.3.
 
 ```bash
 $ vagrant plugin install vagrant-nodemaster

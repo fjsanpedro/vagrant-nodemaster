@@ -53,6 +53,8 @@ module Vagrant
 							puts "Interface #{i} => "+result[interface] if result[interface]
 						end
 						
+						@env.ui.info("#{"Vagrant Version:".ljust(25)} #{result[:vagrant_version]}")
+
 					end
 					
 					0

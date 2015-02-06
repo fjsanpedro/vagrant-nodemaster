@@ -328,8 +328,8 @@ module NodeMaster
         		RouteManager.node_queue_url(client[:address],client[:port],id)
    		 	)
     
-    		response = execute(client,GET_VERB,resource);
-    
+    		response = execute(client,GET_VERB,resource);   
+
     		JSON.parse(response.to_str,{:symbolize_names => true})
 		end
 		
@@ -340,6 +340,8 @@ module NodeMaster
     		)
     
     		response = execute(client,GET_VERB,resource);
+
+    		
     
     		JSON.parse(response.to_str,{:symbolize_names => true})
 		end
