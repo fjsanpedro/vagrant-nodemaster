@@ -1,6 +1,6 @@
 vagrant-nodemaster
 ==================
-This plugin allows you to control centralizely remote virtual environments configured with the plugin [Vagrant-Node](https://github.com/fjsanpedro/vagrant-nodemaster/tree/master/lib/vagrant-node).
+This plugin allows you to control centralizely remote virtual environments configured with the plugin [Vagrant-Node](https://github.com/fjsanpedro/vagrant-node/).
 
 You can also work with Vagrant-Node through a web application called [VagrantWeb](https://github.com/catedrasaes-umu/vagrantweb/). Watch the video [VagrantWeb Overview](https://www.youtube.com/watch?v=PslrNMAl_vU) to figure out all the functionality available.
 
